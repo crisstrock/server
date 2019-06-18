@@ -16,9 +16,11 @@ class CreatePresentacionsTable extends Migration
         Schema::create('presentacions', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nombre');
-            $table->double('precio', 8, 2);
-            $table->double('cantidad', 8, 2);
+            $table->double('cantidad',8,2);
             $table->string('unidad_medida');
+            $table->double('precio',8,2);
+            $table->unsignedBigInteger('producto_id');
+            $table->foreign('producto_id')->references('id')->on('productos');
             $table->timestamps();
         });
     }

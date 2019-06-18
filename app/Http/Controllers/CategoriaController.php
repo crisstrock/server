@@ -11,25 +11,15 @@ use App\Categoria;
 class CategoriaController extends Controller
 {
     public function index(){
-    	$categorias = Categoria::all();
-        
-        return DataTables::of($categorias)
-            ->addColumn('action', function($categoria){
-                return '<a href="javascript:void(0)" class="btn btn-xs btn-info edit-categoria" id="'. $categoria->id .'"><i class="fas fa-edit"></i></a> <a href="#" class="btn btn-xs btn-danger delete-categoria" id="'. $categoria->id .'"><i class="fas fa-trash-alt"></i></a>';
-            })
-            ->editColumn('updated_at', function(Categoria $categoria) {
-                if ($categoria->updated_at != '') {
-                    return $categoria->updated_at->diffForHumans();   
-                }else{
-                    return $categoria->updated_at;
-                }
-                })
-            ->rawColumns(['action'])
-            ->make(true);
+    	return Categoria::all();
+    }
+
+    public function show($id){
+    	return Categoria::find($id);
     }
 
     public function store(Request $request){
-    	$validator = Validator::make($request->json()->all(), [
+    	/*$validator = Validator::make($request->all(), [
     		'nombre' => 'required|string|max:255',
     		'descripcion' => 'required|string|max:255',
     	]);
@@ -39,10 +29,26 @@ class CategoriaController extends Controller
     	}
 
     	$categoria = Categoria::create([
-    		'nombre' => $request->json()->get('nombre'),
-    		'descripcion' => $request->json()->get('descripcion'),
+    		'nombre' => $request->nombre,
+    		'descripcion' => $request->descripcion,
     	]);
 
-    	return response()->json(compact('categoria'));
+    	return response()->json(compact('categoria'));*/
+    	return $categoria = Categoria::create([
+    		'nombre' => $request->nombre,
+    		'descripcion' => $request->descripcion,
+    	]);
+    }
+
+    public function update(Request $request, $id){
+    	$categoria = Categoria::findOrFail($id);
+    	$categoria->update($request->all());
+    	return $categoria;
+    }
+
+    public function delete(Request $request, $id){
+    	$categoria = Categoria::findOrFail($id);
+    	$categoria->delete();
+    	return 204;
     }
 }
