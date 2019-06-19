@@ -6,5 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Presentacion extends Model
 {
-    //
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'nombre', 'cantidad', 'unidad_medida', 'precio', 'producto_id'
+    ];
 }

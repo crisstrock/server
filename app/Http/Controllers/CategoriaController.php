@@ -19,21 +19,6 @@ class CategoriaController extends Controller
     }
 
     public function store(Request $request){
-    	/*$validator = Validator::make($request->all(), [
-    		'nombre' => 'required|string|max:255',
-    		'descripcion' => 'required|string|max:255',
-    	]);
-
-    	if ($validator->fails()) {
-    		return response()->json($validator->errors()->toJson());
-    	}
-
-    	$categoria = Categoria::create([
-    		'nombre' => $request->nombre,
-    		'descripcion' => $request->descripcion,
-    	]);
-
-    	return response()->json(compact('categoria'));*/
     	return $categoria = Categoria::create([
     		'nombre' => $request->nombre,
     		'descripcion' => $request->descripcion,
@@ -50,5 +35,11 @@ class CategoriaController extends Controller
     	$categoria = Categoria::findOrFail($id);
     	$categoria->delete();
     	return 204;
+    }
+
+    public function getOneCategoria(Request $request){
+        $id = $request->input('id');
+        $categoria = Categoria::where('id',$id)->first();
+        return response()->json($categoria);
     }
 }
